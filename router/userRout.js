@@ -17,4 +17,17 @@ router.post("/",async(req,res)=>{
         newUser
     })
 })
+router.get("/:key",async(req,res)=>{
+    console.log(req.params.key);
+    let data=await searchUserModel.find(
+        {
+            "$or":[
+                {"name":{$regex:req.params.key}}
+            ]
+        }
+    )
+    res.json({
+        data
+    })
+})
 module.exports=router
