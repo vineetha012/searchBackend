@@ -3,8 +3,14 @@ const router=express.Router()
 const searchUserModel=require('../model/users')
 router.use(express.json())
 router.use(express.urlencoded({extended:true}))
-router.get("/",(req,res)=>{
-    res.send("ok")
+router.get("/",async(req,res)=>{
+    try {
+        const userdata=await searchUserModel.find()
+        res.status(200).json(userdata)
+    } catch (error) {
+        res.status(401).send(error)
+    }
+   
 })
 router.post("/",async(req,res)=>{
     try {
