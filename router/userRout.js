@@ -43,8 +43,8 @@ router.get("/:key",async(req,res)=>{
         res.status(200).json({
             data
         })
-    }catch(err){
-        res.status(400).send(err)
+    }catch(error){
+        res.status(400).send(error)
     }
     
 })
