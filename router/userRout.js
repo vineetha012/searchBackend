@@ -7,27 +7,39 @@ router.get("/",(req,res)=>{
     res.send("ok")
 })
 router.post("/",async(req,res)=>{
-    const {username,email,PhoneNumber}=req.body
-    const newUser=await searchUserModel.create({
-        username:username,
-        email:email,
-        PhoneNumber:PhoneNumber
-    })
-    res.json({
-        newUser
-    })
+    try {
+        const {username,email,PhoneNumber}=req.body
+        const newUser=await searchUserModel.create({
+            username:username,
+            email:email,
+            PhoneNumber:PhoneNumber
+        })
+        res.status(200).json({
+            newUser
+        })
+    } catch (error) {
+        res.status(404).send(error)
+    }
+   
 })
 router.get("/:key",async(req,res)=>{
     console.log(req.params.key);
-    let data=await searchUserModel.find(
-        {
-            "$or":[
-                {"name":{$regex:req.params.key}}
-            ]
-        }
-    )
-    res.json({
-        data
-    })
+    try{
+        let data=await searchUserModel.find(
+            {
+                "$or":[
+                    {"username":{$regex:req.params.key}},
+                    {"email":{$regex:req.params.key}}
+    
+                ]
+            }
+        )
+        res.status(200).json({
+            data
+        })
+    }catch(err){
+        res.status(400).send(err)
+    }
+    
 })
 module.exports=router
