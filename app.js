@@ -9,6 +9,7 @@ const uri=`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}
 mongoose.connect(uri).then(()=>console.log("connected to mongoose atlas"))
 .catch((err)=>console.log(err))
 app.use(express.json())
+app.use(cors())
 app.use(express.urlencoded({extended:true}))
 app.use('/user',userrout)
 app.listen(port,()=>console.log("server is running"))
